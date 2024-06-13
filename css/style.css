@@ -511,6 +511,64 @@ textarea.input {
     transform: translateX(calc(-100% - 20px))
   }
 }
+.promises__container {
+  position: relative;
+  display: grid
+}
+.promises__list {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2,minmax(280px,320px));
+  gap: 1rem;
+  z-index: 10;
+  align-content: space-around;
+  justify-content: space-between
+}
+.progressbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative
+}
+.progressbar__image {
+  max-width: 40.625rem
+}
+.progressbar__img {
+  aspect-ratio: 450/450
+}
+.progressbar__body {
+  display: grid;
+  gap: 1.5rem;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translate(0,-50%);
+  transform: translate(0,-50%);
+  z-index: 5;
+  justify-items: center
+}
+.progressbar__title {
+  line-height: 1.1;
+  font-weight: 800
+}
+.progressbar__label {
+  max-width: 16.25rem
+}
+.item-promises {
+  background-color: #fffdfc;
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 1.5rem;
+  border-radius: 1.5rem;
+  box-shadow: 4px 4px 10px 0 rgba(30,30,30,.06),0 0 10px 0 rgba(30,30,30,.12)
+}
+.item-promises:nth-child(4) {
+  -webkit-transform: translateY(125);
+  transform: translateY(125)
+}
 .swiper {
   overflow: hidden
 }
@@ -540,6 +598,13 @@ textarea.input {
 }
 .swiper-button-lock {
   display: none!important
+}
+@media (min-width:47.99875em) {
+  .promises__list {
+    position: absolute;
+    top: 0;
+    left: 0
+  }
 }
 @media (min-width:61.99875em) {
   .hero__road-img-mobile {
@@ -590,6 +655,12 @@ textarea.input {
   .page__advantages {
     padding-bottom: 3.125rem
   }
+  .page__company {
+    padding-top: 6.25rem
+  }
+  .page__company {
+    padding-bottom: 3.125rem
+  }
   .page__promises {
     padding-top: 3.125rem
   }
@@ -619,6 +690,33 @@ textarea.input {
   }
   .advantages__list {
     gap: 6.25rem
+  }
+  .promises__container {
+    min-height: 28.4375rem
+  }
+  .progressbar__body {
+    max-width: 24.0625rem
+  }
+  .progressbar__title {
+    font-size: 2.5rem
+  }
+  .progressbar__title {
+    max-width: 23.75rem
+  }
+  .progressbar__title span {
+    font-size: 1.875rem
+  }
+  .progressbar__text {
+    font-size: 1.25rem
+  }
+  .progressbar__text {
+    max-width: 22.5rem
+  }
+  .progressbar__label {
+    font-size: 1rem
+  }
+  .item-promises__text {
+    font-size: 1.25rem
   }
 }
 @media (max-width:75em) {
@@ -666,6 +764,12 @@ textarea.input {
   .page__advantages {
     padding-bottom: 2.5rem
   }
+  .page__company {
+    padding-top: 5rem
+  }
+  .page__company {
+    padding-bottom: 2.5rem
+  }
   .page__promises {
     padding-top: 2.5rem
   }
@@ -692,6 +796,33 @@ textarea.input {
   }
   .advantages__list {
     gap: 2.25rem
+  }
+  .promises__container {
+    min-height: 21.875rem
+  }
+  .progressbar__body {
+    max-width: 17.5rem
+  }
+  .progressbar__title {
+    font-size: 1.625rem
+  }
+  .progressbar__title {
+    max-width: 14.375rem
+  }
+  .progressbar__title span {
+    font-size: 1rem
+  }
+  .progressbar__text {
+    font-size: 1rem
+  }
+  .progressbar__text {
+    max-width: 17.5rem
+  }
+  .progressbar__label {
+    font-size: .625rem
+  }
+  .item-promises__text {
+    font-size: 1.125rem
   }
 }
 @media (max-width:62.5em) {
@@ -867,6 +998,14 @@ textarea.input {
   .advantages__list {
     grid-template-columns: auto
   }
+  .promises__list {
+    grid-template-columns: auto;
+    justify-content: normal
+  }
+  .progressbar__image {
+    margin-left: -2.5rem;
+    margin-right: -2.5rem
+  }
 }
 @media (max-width:47.99875em) and (max-width:20em) {
   .menu__body::after {
@@ -1000,6 +1139,26 @@ textarea.input {
       padding-bottom: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
     }
   }
+  @supports (padding-top:clamp(5rem ,4.603960396rem + 1.9801980198vw ,6.25rem)) {
+    .page__company {
+      padding-top: clamp(5rem ,4.603960396rem + 1.9801980198vw ,6.25rem)
+    }
+  }
+  @supports not (padding-top:clamp(5rem ,4.603960396rem + 1.9801980198vw ,6.25rem)) {
+    .page__company {
+      padding-top: calc(5rem + 1.25 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (padding-bottom:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+    .page__company {
+      padding-bottom: clamp(2.5rem ,2.301980198rem + .9900990099vw ,3.125rem)
+    }
+  }
+  @supports not (padding-bottom:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+    .page__company {
+      padding-bottom: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
+    }
+  }
   @supports (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
     .page__promises {
       padding-top: clamp(2.5rem ,2.301980198rem + .9900990099vw ,3.125rem)
@@ -1088,6 +1247,96 @@ textarea.input {
   @supports not (gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
     .advantages__list {
       gap: calc(2.25rem + 4 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (min-height:clamp(21.875rem ,19.7957920792rem + 10.396039604vw ,28.4375rem)) {
+    .promises__container {
+      min-height: clamp(21.875rem ,19.7957920792rem + 10.396039604vw ,28.4375rem)
+    }
+  }
+  @supports not (min-height:clamp(21.875rem ,19.7957920792rem + 10.396039604vw ,28.4375rem)) {
+    .promises__container {
+      min-height: calc(21.875rem + 6.5625 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (max-width:clamp(17.5rem ,15.4207920792rem + 10.396039604vw ,24.0625rem)) {
+    .progressbar__body {
+      max-width: clamp(17.5rem ,15.4207920792rem + 10.396039604vw ,24.0625rem)
+    }
+  }
+  @supports not (max-width:clamp(17.5rem ,15.4207920792rem + 10.396039604vw ,24.0625rem)) {
+    .progressbar__body {
+      max-width: calc(17.5rem + 6.5625 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (font-size:clamp(1.625rem ,1.3477722772rem + 1.3861386139vw ,2.5rem)) {
+    .progressbar__title {
+      font-size: clamp(1.625rem ,1.3477722772rem + 1.3861386139vw ,2.5rem)
+    }
+  }
+  @supports not (font-size:clamp(1.625rem ,1.3477722772rem + 1.3861386139vw ,2.5rem)) {
+    .progressbar__title {
+      font-size: calc(1.625rem + .875 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (max-width:clamp(14.375rem ,11.4047029703rem + 14.8514851485vw ,23.75rem)) {
+    .progressbar__title {
+      max-width: clamp(14.375rem ,11.4047029703rem + 14.8514851485vw ,23.75rem)
+    }
+  }
+  @supports not (max-width:clamp(14.375rem ,11.4047029703rem + 14.8514851485vw ,23.75rem)) {
+    .progressbar__title {
+      max-width: calc(14.375rem + 9.375 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (font-size:clamp(1rem ,0.7227722772rem + 1.3861386139vw ,1.875rem)) {
+    .progressbar__title span {
+      font-size: clamp(1rem ,.7227722772rem + 1.3861386139vw ,1.875rem)
+    }
+  }
+  @supports not (font-size:clamp(1rem ,0.7227722772rem + 1.3861386139vw ,1.875rem)) {
+    .progressbar__title span {
+      font-size: calc(1rem + .875 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (font-size:clamp(1rem ,0.9207920792rem + 0.396039604vw ,1.25rem)) {
+    .progressbar__text {
+      font-size: clamp(1rem ,.9207920792rem + .396039604vw ,1.25rem)
+    }
+  }
+  @supports not (font-size:clamp(1rem ,0.9207920792rem + 0.396039604vw ,1.25rem)) {
+    .progressbar__text {
+      font-size: calc(1rem + .25 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (max-width:clamp(17.5rem ,15.9158415842rem + 7.9207920792vw ,22.5rem)) {
+    .progressbar__text {
+      max-width: clamp(17.5rem ,15.9158415842rem + 7.9207920792vw ,22.5rem)
+    }
+  }
+  @supports not (max-width:clamp(17.5rem ,15.9158415842rem + 7.9207920792vw ,22.5rem)) {
+    .progressbar__text {
+      max-width: calc(17.5rem + 5 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (font-size:clamp(0.625rem ,0.5061881188rem + 0.5940594059vw ,1rem)) {
+    .progressbar__label {
+      font-size: clamp(.625rem ,.5061881188rem + .5940594059vw ,1rem)
+    }
+  }
+  @supports not (font-size:clamp(0.625rem ,0.5061881188rem + 0.5940594059vw ,1rem)) {
+    .progressbar__label {
+      font-size: calc(.625rem + .375 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (font-size:clamp(1.125rem ,1.0853960396rem + 0.198019802vw ,1.25rem)) {
+    .item-promises__text {
+      font-size: clamp(1.125rem ,1.0853960396rem + .198019802vw ,1.25rem)
+    }
+  }
+  @supports not (font-size:clamp(1.125rem ,1.0853960396rem + 0.198019802vw ,1.25rem)) {
+    .item-promises__text {
+      font-size: calc(1.125rem + .125 * (100vw - 20rem)/ 63.125)
     }
   }
 }
