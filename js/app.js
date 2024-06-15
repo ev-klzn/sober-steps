@@ -4046,7 +4046,7 @@
                 },
                 640: {
                     slidesPerView: 1.2,
-                    spaceBetween: 0,
+                    spaceBetween: 20,
                     autoHeight: true
                 },
                 768: {
