@@ -842,17 +842,20 @@ address {
 .started__list {
   display: grid;
   grid-template-columns: repeat(3,1fr);
-  gap: 1.5rem;
+  -webkit-column-gap: 1.25rem;
+  -moz-column-gap: 1.25rem;
+  column-gap: 1.25rem;
+  row-gap: .625rem;
   align-items: start
+}
+.started__list:not(:last-child) {
+  margin-bottom: 2.5rem
 }
 .item-started {
   display: grid;
   gap: 1.5rem;
   padding: 1rem;
   justify-items: center
-}
-.item-started:not(:last-child) {
-  margin-bottom: 2.5rem
 }
 .item-started__counter {
   font-size: 52px;
@@ -874,22 +877,25 @@ address {
   text-align: center
 }
 .garanted {
+  padding-left: .9375rem;
+  padding-right: .9375rem;
   background: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%)
 }
 .garanted__wrapper {
-  padding: 1.5rem 2.25rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   margin: 0 auto;
   max-width: 38.75rem;
   display: grid;
   grid-template-columns: .2fr 1fr;
   align-items: center;
-  gap: 1.5rem;
+  gap: .9375rem;
   border-radius: 1.5rem;
   background: #fffdfc;
   box-shadow: 4px 4px 10px 0 rgba(30,30,30,.16)
 }
 .garanted__img {
-  max-width: 8.125rem
+  width: 8.125rem
 }
 .garanted__image {
   aspect-ratio: 130/66
@@ -1812,6 +1818,12 @@ button.swiper-pagination-bullet {
   .item-started__text {
     font-size: 1.25rem
   }
+  .garanted__wrapper {
+    padding-left: 2.25rem
+  }
+  .garanted__wrapper {
+    padding-right: 2.25rem
+  }
 }
 @media (max-width:75em) {
   .hero__reported {
@@ -2045,6 +2057,12 @@ button.swiper-pagination-bullet {
   }
   .item-started__text {
     font-size: 1.125rem
+  }
+  .garanted__wrapper {
+    padding-left: .9375rem
+  }
+  .garanted__wrapper {
+    padding-right: .9375rem
   }
 }
 @media (max-width:81.25em) {
@@ -2344,6 +2362,11 @@ button.swiper-pagination-bullet {
 @media (max-width:29.99875em) {
   .hero__reported {
     max-width: 100%
+  }
+  .garanted__wrapper {
+    grid-template-columns: auto;
+    justify-items: center;
+    text-align: center
   }
 }
 @media (min-width:20em) and (max-width:83.125em) {
@@ -3045,6 +3068,26 @@ button.swiper-pagination-bullet {
   @supports not (font-size:clamp(1.125rem ,1.0853960396rem + 0.198019802vw ,1.25rem)) {
     .item-started__text {
       font-size: calc(1.125rem + .125 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (padding-left:clamp(0.9375rem ,0.5216584158rem + 2.0792079208vw ,2.25rem)) {
+    .garanted__wrapper {
+      padding-left: clamp(.9375rem ,.5216584158rem + 2.0792079208vw ,2.25rem)
+    }
+  }
+  @supports not (padding-left:clamp(0.9375rem ,0.5216584158rem + 2.0792079208vw ,2.25rem)) {
+    .garanted__wrapper {
+      padding-left: calc(.9375rem + 1.3125 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (padding-right:clamp(0.9375rem ,0.5216584158rem + 2.0792079208vw ,2.25rem)) {
+    .garanted__wrapper {
+      padding-right: clamp(.9375rem ,.5216584158rem + 2.0792079208vw ,2.25rem)
+    }
+  }
+  @supports not (padding-right:clamp(0.9375rem ,0.5216584158rem + 2.0792079208vw ,2.25rem)) {
+    .garanted__wrapper {
+      padding-right: calc(.9375rem + 1.3125 * (100vw - 20rem)/ 63.125)
     }
   }
 }
