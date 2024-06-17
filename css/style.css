@@ -987,7 +987,18 @@ address {
 }
 .people__item {
   border-radius: .625rem;
-  overflow: hidden
+  overflow: hidden;
+  opacity: 0
+}
+.people__item._watcher-view {
+  transition: all 1s;
+  opacity: 1
+}
+.people__item._watcher-view:nth-child(odd) {
+  transition-delay: .3s
+}
+.people__item._watcher-view:nth-child(even) {
+  transition-delay: .8s
 }
 .people__img {
   aspect-ratio: 132/260
@@ -2726,7 +2737,10 @@ button.swiper-pagination-bullet {
     margin-left: .9375rem
   }
   .about__button {
-    font-size: 1.125rem
+    font-size: 1.125rem;
+    width: 100%;
+    margin-left: 0;
+    justify-self: center
   }
 }
 @media (max-width:47.99875em) and (max-width:20em) {
@@ -2751,11 +2765,6 @@ button.swiper-pagination-bullet {
   .about__slider-images.swiper {
     max-width: 18.125rem;
     padding-bottom: 2rem
-  }
-  .about__button {
-    justify-self: center;
-    width: -webkit-max-content;
-    width: max-content
   }
 }
 @media (min-width:20em) and (max-width:83.125em) {
