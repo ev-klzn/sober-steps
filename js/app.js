@@ -531,6 +531,9 @@
         };
         animate();
     }
+    function utils_getSlideTransformEl(slideEl) {
+        return slideEl.querySelector(".swiper-slide-transform") || slideEl.shadowRoot && slideEl.shadowRoot.querySelector(".swiper-slide-transform") || slideEl;
+    }
     function utils_elementChildren(element, selector) {
         if (selector === void 0) selector = "";
         return [ ...element.children ].filter((el => el.matches(selector)));
@@ -593,6 +596,14 @@
             parent = parent.parentElement;
         }
         return parents;
+    }
+    function utils_elementTransitionEnd(el, callback) {
+        function fireCallBack(e) {
+            if (e.target !== el) return;
+            callback.call(el, e);
+            el.removeEventListener("transitionend", fireCallBack);
+        }
+        if (callback) el.addEventListener("transitionend", fireCallBack);
     }
     function elementOuterSize(el, size, includeMargins) {
         const window = ssr_window_esm_getWindow();
@@ -3241,6 +3252,231 @@
         }));
     }));
     swiper_core_Swiper.use([ Resize, Observer ]);
+    function Mousewheel(_ref) {
+        let {swiper, extendParams, on, emit} = _ref;
+        const window = ssr_window_esm_getWindow();
+        extendParams({
+            mousewheel: {
+                enabled: false,
+                releaseOnEdges: false,
+                invert: false,
+                forceToAxis: false,
+                sensitivity: 1,
+                eventsTarget: "container",
+                thresholdDelta: null,
+                thresholdTime: null,
+                noMousewheelClass: "swiper-no-mousewheel"
+            }
+        });
+        swiper.mousewheel = {
+            enabled: false
+        };
+        let timeout;
+        let lastScrollTime = utils_now();
+        let lastEventBeforeSnap;
+        const recentWheelEvents = [];
+        function normalize(e) {
+            const PIXEL_STEP = 10;
+            const LINE_HEIGHT = 40;
+            const PAGE_HEIGHT = 800;
+            let sX = 0;
+            let sY = 0;
+            let pX = 0;
+            let pY = 0;
+            if ("detail" in e) sY = e.detail;
+            if ("wheelDelta" in e) sY = -e.wheelDelta / 120;
+            if ("wheelDeltaY" in e) sY = -e.wheelDeltaY / 120;
+            if ("wheelDeltaX" in e) sX = -e.wheelDeltaX / 120;
+            if ("axis" in e && e.axis === e.HORIZONTAL_AXIS) {
+                sX = sY;
+                sY = 0;
+            }
+            pX = sX * PIXEL_STEP;
+            pY = sY * PIXEL_STEP;
+            if ("deltaY" in e) pY = e.deltaY;
+            if ("deltaX" in e) pX = e.deltaX;
+            if (e.shiftKey && !pX) {
+                pX = pY;
+                pY = 0;
+            }
+            if ((pX || pY) && e.deltaMode) if (e.deltaMode === 1) {
+                pX *= LINE_HEIGHT;
+                pY *= LINE_HEIGHT;
+            } else {
+                pX *= PAGE_HEIGHT;
+                pY *= PAGE_HEIGHT;
+            }
+            if (pX && !sX) sX = pX < 1 ? -1 : 1;
+            if (pY && !sY) sY = pY < 1 ? -1 : 1;
+            return {
+                spinX: sX,
+                spinY: sY,
+                pixelX: pX,
+                pixelY: pY
+            };
+        }
+        function handleMouseEnter() {
+            if (!swiper.enabled) return;
+            swiper.mouseEntered = true;
+        }
+        function handleMouseLeave() {
+            if (!swiper.enabled) return;
+            swiper.mouseEntered = false;
+        }
+        function animateSlider(newEvent) {
+            if (swiper.params.mousewheel.thresholdDelta && newEvent.delta < swiper.params.mousewheel.thresholdDelta) return false;
+            if (swiper.params.mousewheel.thresholdTime && utils_now() - lastScrollTime < swiper.params.mousewheel.thresholdTime) return false;
+            if (newEvent.delta >= 6 && utils_now() - lastScrollTime < 60) return true;
+            if (newEvent.direction < 0) {
+                if ((!swiper.isEnd || swiper.params.loop) && !swiper.animating) {
+                    swiper.slideNext();
+                    emit("scroll", newEvent.raw);
+                }
+            } else if ((!swiper.isBeginning || swiper.params.loop) && !swiper.animating) {
+                swiper.slidePrev();
+                emit("scroll", newEvent.raw);
+            }
+            lastScrollTime = (new window.Date).getTime();
+            return false;
+        }
+        function releaseScroll(newEvent) {
+            const params = swiper.params.mousewheel;
+            if (newEvent.direction < 0) {
+                if (swiper.isEnd && !swiper.params.loop && params.releaseOnEdges) return true;
+            } else if (swiper.isBeginning && !swiper.params.loop && params.releaseOnEdges) return true;
+            return false;
+        }
+        function handle(event) {
+            let e = event;
+            let disableParentSwiper = true;
+            if (!swiper.enabled) return;
+            if (event.target.closest(`.${swiper.params.mousewheel.noMousewheelClass}`)) return;
+            const params = swiper.params.mousewheel;
+            if (swiper.params.cssMode) e.preventDefault();
+            let targetEl = swiper.el;
+            if (swiper.params.mousewheel.eventsTarget !== "container") targetEl = document.querySelector(swiper.params.mousewheel.eventsTarget);
+            const targetElContainsTarget = targetEl && targetEl.contains(e.target);
+            if (!swiper.mouseEntered && !targetElContainsTarget && !params.releaseOnEdges) return true;
+            if (e.originalEvent) e = e.originalEvent;
+            let delta = 0;
+            const rtlFactor = swiper.rtlTranslate ? -1 : 1;
+            const data = normalize(e);
+            if (params.forceToAxis) if (swiper.isHorizontal()) if (Math.abs(data.pixelX) > Math.abs(data.pixelY)) delta = -data.pixelX * rtlFactor; else return true; else if (Math.abs(data.pixelY) > Math.abs(data.pixelX)) delta = -data.pixelY; else return true; else delta = Math.abs(data.pixelX) > Math.abs(data.pixelY) ? -data.pixelX * rtlFactor : -data.pixelY;
+            if (delta === 0) return true;
+            if (params.invert) delta = -delta;
+            let positions = swiper.getTranslate() + delta * params.sensitivity;
+            if (positions >= swiper.minTranslate()) positions = swiper.minTranslate();
+            if (positions <= swiper.maxTranslate()) positions = swiper.maxTranslate();
+            disableParentSwiper = swiper.params.loop ? true : !(positions === swiper.minTranslate() || positions === swiper.maxTranslate());
+            if (disableParentSwiper && swiper.params.nested) e.stopPropagation();
+            if (!swiper.params.freeMode || !swiper.params.freeMode.enabled) {
+                const newEvent = {
+                    time: utils_now(),
+                    delta: Math.abs(delta),
+                    direction: Math.sign(delta),
+                    raw: event
+                };
+                if (recentWheelEvents.length >= 2) recentWheelEvents.shift();
+                const prevEvent = recentWheelEvents.length ? recentWheelEvents[recentWheelEvents.length - 1] : void 0;
+                recentWheelEvents.push(newEvent);
+                if (prevEvent) {
+                    if (newEvent.direction !== prevEvent.direction || newEvent.delta > prevEvent.delta || newEvent.time > prevEvent.time + 150) animateSlider(newEvent);
+                } else animateSlider(newEvent);
+                if (releaseScroll(newEvent)) return true;
+            } else {
+                const newEvent = {
+                    time: utils_now(),
+                    delta: Math.abs(delta),
+                    direction: Math.sign(delta)
+                };
+                const ignoreWheelEvents = lastEventBeforeSnap && newEvent.time < lastEventBeforeSnap.time + 500 && newEvent.delta <= lastEventBeforeSnap.delta && newEvent.direction === lastEventBeforeSnap.direction;
+                if (!ignoreWheelEvents) {
+                    lastEventBeforeSnap = void 0;
+                    let position = swiper.getTranslate() + delta * params.sensitivity;
+                    const wasBeginning = swiper.isBeginning;
+                    const wasEnd = swiper.isEnd;
+                    if (position >= swiper.minTranslate()) position = swiper.minTranslate();
+                    if (position <= swiper.maxTranslate()) position = swiper.maxTranslate();
+                    swiper.setTransition(0);
+                    swiper.setTranslate(position);
+                    swiper.updateProgress();
+                    swiper.updateActiveIndex();
+                    swiper.updateSlidesClasses();
+                    if (!wasBeginning && swiper.isBeginning || !wasEnd && swiper.isEnd) swiper.updateSlidesClasses();
+                    if (swiper.params.loop) swiper.loopFix({
+                        direction: newEvent.direction < 0 ? "next" : "prev",
+                        byMousewheel: true
+                    });
+                    if (swiper.params.freeMode.sticky) {
+                        clearTimeout(timeout);
+                        timeout = void 0;
+                        if (recentWheelEvents.length >= 15) recentWheelEvents.shift();
+                        const prevEvent = recentWheelEvents.length ? recentWheelEvents[recentWheelEvents.length - 1] : void 0;
+                        const firstEvent = recentWheelEvents[0];
+                        recentWheelEvents.push(newEvent);
+                        if (prevEvent && (newEvent.delta > prevEvent.delta || newEvent.direction !== prevEvent.direction)) recentWheelEvents.splice(0); else if (recentWheelEvents.length >= 15 && newEvent.time - firstEvent.time < 500 && firstEvent.delta - newEvent.delta >= 1 && newEvent.delta <= 6) {
+                            const snapToThreshold = delta > 0 ? .8 : .2;
+                            lastEventBeforeSnap = newEvent;
+                            recentWheelEvents.splice(0);
+                            timeout = utils_nextTick((() => {
+                                swiper.slideToClosest(swiper.params.speed, true, void 0, snapToThreshold);
+                            }), 0);
+                        }
+                        if (!timeout) timeout = utils_nextTick((() => {
+                            const snapToThreshold = .5;
+                            lastEventBeforeSnap = newEvent;
+                            recentWheelEvents.splice(0);
+                            swiper.slideToClosest(swiper.params.speed, true, void 0, snapToThreshold);
+                        }), 500);
+                    }
+                    if (!ignoreWheelEvents) emit("scroll", e);
+                    if (swiper.params.autoplay && swiper.params.autoplayDisableOnInteraction) swiper.autoplay.stop();
+                    if (params.releaseOnEdges && (position === swiper.minTranslate() || position === swiper.maxTranslate())) return true;
+                }
+            }
+            if (e.preventDefault) e.preventDefault(); else e.returnValue = false;
+            return false;
+        }
+        function events(method) {
+            let targetEl = swiper.el;
+            if (swiper.params.mousewheel.eventsTarget !== "container") targetEl = document.querySelector(swiper.params.mousewheel.eventsTarget);
+            targetEl[method]("mouseenter", handleMouseEnter);
+            targetEl[method]("mouseleave", handleMouseLeave);
+            targetEl[method]("wheel", handle);
+        }
+        function enable() {
+            if (swiper.params.cssMode) {
+                swiper.wrapperEl.removeEventListener("wheel", handle);
+                return true;
+            }
+            if (swiper.mousewheel.enabled) return false;
+            events("addEventListener");
+            swiper.mousewheel.enabled = true;
+            return true;
+        }
+        function disable() {
+            if (swiper.params.cssMode) {
+                swiper.wrapperEl.addEventListener(event, handle);
+                return true;
+            }
+            if (!swiper.mousewheel.enabled) return false;
+            events("removeEventListener");
+            swiper.mousewheel.enabled = false;
+            return true;
+        }
+        on("init", (() => {
+            if (!swiper.params.mousewheel.enabled && swiper.params.cssMode) disable();
+            if (swiper.params.mousewheel.enabled) enable();
+        }));
+        on("destroy", (() => {
+            if (swiper.params.cssMode) enable();
+            if (swiper.mousewheel.enabled) disable();
+        }));
+        Object.assign(swiper.mousewheel, {
+            enable,
+            disable
+        });
+    }
     function create_element_if_not_defined_createElementIfNotDefined(swiper, originalParams, params, checkProps) {
         if (swiper.params.createElements) Object.keys(checkProps).forEach((key => {
             if (!params[key] && params.auto === true) {
@@ -3735,6 +3971,142 @@
             destroy
         });
     }
+    function Controller(_ref) {
+        let {swiper, extendParams, on} = _ref;
+        extendParams({
+            controller: {
+                control: void 0,
+                inverse: false,
+                by: "slide"
+            }
+        });
+        swiper.controller = {
+            control: void 0
+        };
+        function LinearSpline(x, y) {
+            const binarySearch = function search() {
+                let maxIndex;
+                let minIndex;
+                let guess;
+                return (array, val) => {
+                    minIndex = -1;
+                    maxIndex = array.length;
+                    while (maxIndex - minIndex > 1) {
+                        guess = maxIndex + minIndex >> 1;
+                        if (array[guess] <= val) minIndex = guess; else maxIndex = guess;
+                    }
+                    return maxIndex;
+                };
+            }();
+            this.x = x;
+            this.y = y;
+            this.lastIndex = x.length - 1;
+            let i1;
+            let i3;
+            this.interpolate = function interpolate(x2) {
+                if (!x2) return 0;
+                i3 = binarySearch(this.x, x2);
+                i1 = i3 - 1;
+                return (x2 - this.x[i1]) * (this.y[i3] - this.y[i1]) / (this.x[i3] - this.x[i1]) + this.y[i1];
+            };
+            return this;
+        }
+        function getInterpolateFunction(c) {
+            swiper.controller.spline = swiper.params.loop ? new LinearSpline(swiper.slidesGrid, c.slidesGrid) : new LinearSpline(swiper.snapGrid, c.snapGrid);
+        }
+        function setTranslate(_t, byController) {
+            const controlled = swiper.controller.control;
+            let multiplier;
+            let controlledTranslate;
+            const Swiper = swiper.constructor;
+            function setControlledTranslate(c) {
+                if (c.destroyed) return;
+                const translate = swiper.rtlTranslate ? -swiper.translate : swiper.translate;
+                if (swiper.params.controller.by === "slide") {
+                    getInterpolateFunction(c);
+                    controlledTranslate = -swiper.controller.spline.interpolate(-translate);
+                }
+                if (!controlledTranslate || swiper.params.controller.by === "container") {
+                    multiplier = (c.maxTranslate() - c.minTranslate()) / (swiper.maxTranslate() - swiper.minTranslate());
+                    if (Number.isNaN(multiplier) || !Number.isFinite(multiplier)) multiplier = 1;
+                    controlledTranslate = (translate - swiper.minTranslate()) * multiplier + c.minTranslate();
+                }
+                if (swiper.params.controller.inverse) controlledTranslate = c.maxTranslate() - controlledTranslate;
+                c.updateProgress(controlledTranslate);
+                c.setTranslate(controlledTranslate, swiper);
+                c.updateActiveIndex();
+                c.updateSlidesClasses();
+            }
+            if (Array.isArray(controlled)) {
+                for (let i = 0; i < controlled.length; i += 1) if (controlled[i] !== byController && controlled[i] instanceof Swiper) setControlledTranslate(controlled[i]);
+            } else if (controlled instanceof Swiper && byController !== controlled) setControlledTranslate(controlled);
+        }
+        function setTransition(duration, byController) {
+            const Swiper = swiper.constructor;
+            const controlled = swiper.controller.control;
+            let i;
+            function setControlledTransition(c) {
+                if (c.destroyed) return;
+                c.setTransition(duration, swiper);
+                if (duration !== 0) {
+                    c.transitionStart();
+                    if (c.params.autoHeight) utils_nextTick((() => {
+                        c.updateAutoHeight();
+                    }));
+                    utils_elementTransitionEnd(c.wrapperEl, (() => {
+                        if (!controlled) return;
+                        c.transitionEnd();
+                    }));
+                }
+            }
+            if (Array.isArray(controlled)) {
+                for (i = 0; i < controlled.length; i += 1) if (controlled[i] !== byController && controlled[i] instanceof Swiper) setControlledTransition(controlled[i]);
+            } else if (controlled instanceof Swiper && byController !== controlled) setControlledTransition(controlled);
+        }
+        function removeSpline() {
+            if (!swiper.controller.control) return;
+            if (swiper.controller.spline) {
+                swiper.controller.spline = void 0;
+                delete swiper.controller.spline;
+            }
+        }
+        on("beforeInit", (() => {
+            if (typeof window !== "undefined" && (typeof swiper.params.controller.control === "string" || swiper.params.controller.control instanceof HTMLElement)) {
+                const controlElement = document.querySelector(swiper.params.controller.control);
+                if (controlElement && controlElement.swiper) swiper.controller.control = controlElement.swiper; else if (controlElement) {
+                    const onControllerSwiper = e => {
+                        swiper.controller.control = e.detail[0];
+                        swiper.update();
+                        controlElement.removeEventListener("init", onControllerSwiper);
+                    };
+                    controlElement.addEventListener("init", onControllerSwiper);
+                }
+                return;
+            }
+            swiper.controller.control = swiper.params.controller.control;
+        }));
+        on("update", (() => {
+            removeSpline();
+        }));
+        on("resize", (() => {
+            removeSpline();
+        }));
+        on("observerUpdate", (() => {
+            removeSpline();
+        }));
+        on("setTranslate", ((_s, translate, byController) => {
+            if (!swiper.controller.control || swiper.controller.control.destroyed) return;
+            swiper.controller.setTranslate(translate, byController);
+        }));
+        on("setTransition", ((_s, duration, byController) => {
+            if (!swiper.controller.control || swiper.controller.control.destroyed) return;
+            swiper.controller.setTransition(duration, byController);
+        }));
+        Object.assign(swiper.controller, {
+            setTranslate,
+            setTransition
+        });
+    }
     function Autoplay(_ref) {
         let {swiper, extendParams, on, emit, params} = _ref;
         swiper.autoplay = {
@@ -3987,6 +4359,228 @@
             resume
         });
     }
+    function effect_init_effectInit(params) {
+        const {effect, swiper, on, setTranslate, setTransition, overwriteParams, perspective, recreateShadows, getEffectParams} = params;
+        on("beforeInit", (() => {
+            if (swiper.params.effect !== effect) return;
+            swiper.classNames.push(`${swiper.params.containerModifierClass}${effect}`);
+            if (perspective && perspective()) swiper.classNames.push(`${swiper.params.containerModifierClass}3d`);
+            const overwriteParamsResult = overwriteParams ? overwriteParams() : {};
+            Object.assign(swiper.params, overwriteParamsResult);
+            Object.assign(swiper.originalParams, overwriteParamsResult);
+        }));
+        on("setTranslate", (() => {
+            if (swiper.params.effect !== effect) return;
+            setTranslate();
+        }));
+        on("setTransition", ((_s, duration) => {
+            if (swiper.params.effect !== effect) return;
+            setTransition(duration);
+        }));
+        on("transitionEnd", (() => {
+            if (swiper.params.effect !== effect) return;
+            if (recreateShadows) {
+                if (!getEffectParams || !getEffectParams().slideShadows) return;
+                swiper.slides.forEach((slideEl => {
+                    slideEl.querySelectorAll(".swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left").forEach((shadowEl => shadowEl.remove()));
+                }));
+                recreateShadows();
+            }
+        }));
+        let requireUpdateOnVirtual;
+        on("virtualUpdate", (() => {
+            if (swiper.params.effect !== effect) return;
+            if (!swiper.slides.length) requireUpdateOnVirtual = true;
+            requestAnimationFrame((() => {
+                if (requireUpdateOnVirtual && swiper.slides && swiper.slides.length) {
+                    setTranslate();
+                    requireUpdateOnVirtual = false;
+                }
+            }));
+        }));
+    }
+    function effect_target_effectTarget(effectParams, slideEl) {
+        const transformEl = utils_getSlideTransformEl(slideEl);
+        if (transformEl !== slideEl) {
+            transformEl.style.backfaceVisibility = "hidden";
+            transformEl.style["-webkit-backface-visibility"] = "hidden";
+        }
+        return transformEl;
+    }
+    function effect_virtual_transition_end_effectVirtualTransitionEnd(_ref) {
+        let {swiper, duration, transformElements, allSlides} = _ref;
+        const {activeIndex} = swiper;
+        const getSlide = el => {
+            if (!el.parentElement) {
+                const slide = swiper.slides.filter((slideEl => slideEl.shadowRoot && slideEl.shadowRoot === el.parentNode))[0];
+                return slide;
+            }
+            return el.parentElement;
+        };
+        if (swiper.params.virtualTranslate && duration !== 0) {
+            let eventTriggered = false;
+            let transitionEndTarget;
+            if (allSlides) transitionEndTarget = transformElements; else transitionEndTarget = transformElements.filter((transformEl => {
+                const el = transformEl.classList.contains("swiper-slide-transform") ? getSlide(transformEl) : transformEl;
+                return swiper.getSlideIndex(el) === activeIndex;
+            }));
+            transitionEndTarget.forEach((el => {
+                utils_elementTransitionEnd(el, (() => {
+                    if (eventTriggered) return;
+                    if (!swiper || swiper.destroyed) return;
+                    eventTriggered = true;
+                    swiper.animating = false;
+                    const evt = new window.CustomEvent("transitionend", {
+                        bubbles: true,
+                        cancelable: true
+                    });
+                    swiper.wrapperEl.dispatchEvent(evt);
+                }));
+            }));
+        }
+    }
+    function EffectFade(_ref) {
+        let {swiper, extendParams, on} = _ref;
+        extendParams({
+            fadeEffect: {
+                crossFade: false
+            }
+        });
+        const setTranslate = () => {
+            const {slides} = swiper;
+            const params = swiper.params.fadeEffect;
+            for (let i = 0; i < slides.length; i += 1) {
+                const slideEl = swiper.slides[i];
+                const offset = slideEl.swiperSlideOffset;
+                let tx = -offset;
+                if (!swiper.params.virtualTranslate) tx -= swiper.translate;
+                let ty = 0;
+                if (!swiper.isHorizontal()) {
+                    ty = tx;
+                    tx = 0;
+                }
+                const slideOpacity = swiper.params.fadeEffect.crossFade ? Math.max(1 - Math.abs(slideEl.progress), 0) : 1 + Math.min(Math.max(slideEl.progress, -1), 0);
+                const targetEl = effect_target_effectTarget(params, slideEl);
+                targetEl.style.opacity = slideOpacity;
+                targetEl.style.transform = `translate3d(${tx}px, ${ty}px, 0px)`;
+            }
+        };
+        const setTransition = duration => {
+            const transformElements = swiper.slides.map((slideEl => utils_getSlideTransformEl(slideEl)));
+            transformElements.forEach((el => {
+                el.style.transitionDuration = `${duration}ms`;
+            }));
+            effect_virtual_transition_end_effectVirtualTransitionEnd({
+                swiper,
+                duration,
+                transformElements,
+                allSlides: true
+            });
+        };
+        effect_init_effectInit({
+            effect: "fade",
+            swiper,
+            on,
+            setTranslate,
+            setTransition,
+            overwriteParams: () => ({
+                slidesPerView: 1,
+                slidesPerGroup: 1,
+                watchSlidesProgress: true,
+                spaceBetween: 0,
+                virtualTranslate: !swiper.params.cssMode
+            })
+        });
+    }
+    function create_shadow_createShadow(suffix, slideEl, side) {
+        const shadowClass = `swiper-slide-shadow${side ? `-${side}` : ""}${suffix ? ` swiper-slide-shadow-${suffix}` : ""}`;
+        const shadowContainer = utils_getSlideTransformEl(slideEl);
+        let shadowEl = shadowContainer.querySelector(`.${shadowClass.split(" ").join(".")}`);
+        if (!shadowEl) {
+            shadowEl = utils_createElement("div", shadowClass.split(" "));
+            shadowContainer.append(shadowEl);
+        }
+        return shadowEl;
+    }
+    function EffectCoverflow(_ref) {
+        let {swiper, extendParams, on} = _ref;
+        extendParams({
+            coverflowEffect: {
+                rotate: 50,
+                stretch: 0,
+                depth: 100,
+                scale: 1,
+                modifier: 1,
+                slideShadows: true
+            }
+        });
+        const setTranslate = () => {
+            const {width: swiperWidth, height: swiperHeight, slides, slidesSizesGrid} = swiper;
+            const params = swiper.params.coverflowEffect;
+            const isHorizontal = swiper.isHorizontal();
+            const transform = swiper.translate;
+            const center = isHorizontal ? -transform + swiperWidth / 2 : -transform + swiperHeight / 2;
+            const rotate = isHorizontal ? params.rotate : -params.rotate;
+            const translate = params.depth;
+            for (let i = 0, length = slides.length; i < length; i += 1) {
+                const slideEl = slides[i];
+                const slideSize = slidesSizesGrid[i];
+                const slideOffset = slideEl.swiperSlideOffset;
+                const centerOffset = (center - slideOffset - slideSize / 2) / slideSize;
+                const offsetMultiplier = typeof params.modifier === "function" ? params.modifier(centerOffset) : centerOffset * params.modifier;
+                let rotateY = isHorizontal ? rotate * offsetMultiplier : 0;
+                let rotateX = isHorizontal ? 0 : rotate * offsetMultiplier;
+                let translateZ = -translate * Math.abs(offsetMultiplier);
+                let stretch = params.stretch;
+                if (typeof stretch === "string" && stretch.indexOf("%") !== -1) stretch = parseFloat(params.stretch) / 100 * slideSize;
+                let translateY = isHorizontal ? 0 : stretch * offsetMultiplier;
+                let translateX = isHorizontal ? stretch * offsetMultiplier : 0;
+                let scale = 1 - (1 - params.scale) * Math.abs(offsetMultiplier);
+                if (Math.abs(translateX) < .001) translateX = 0;
+                if (Math.abs(translateY) < .001) translateY = 0;
+                if (Math.abs(translateZ) < .001) translateZ = 0;
+                if (Math.abs(rotateY) < .001) rotateY = 0;
+                if (Math.abs(rotateX) < .001) rotateX = 0;
+                if (Math.abs(scale) < .001) scale = 0;
+                if (swiper.browser && swiper.browser.need3dFix) {
+                    if (Math.abs(rotateY) / 90 % 2 === 1) rotateY += .001;
+                    if (Math.abs(rotateX) / 90 % 2 === 1) rotateX += .001;
+                }
+                const slideTransform = `translate3d(${translateX}px,${translateY}px,${translateZ}px)  rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(${scale})`;
+                const targetEl = effect_target_effectTarget(params, slideEl);
+                targetEl.style.transform = slideTransform;
+                slideEl.style.zIndex = -Math.abs(Math.round(offsetMultiplier)) + 1;
+                if (params.slideShadows) {
+                    let shadowBeforeEl = isHorizontal ? slideEl.querySelector(".swiper-slide-shadow-left") : slideEl.querySelector(".swiper-slide-shadow-top");
+                    let shadowAfterEl = isHorizontal ? slideEl.querySelector(".swiper-slide-shadow-right") : slideEl.querySelector(".swiper-slide-shadow-bottom");
+                    if (!shadowBeforeEl) shadowBeforeEl = create_shadow_createShadow("coverflow", slideEl, isHorizontal ? "left" : "top");
+                    if (!shadowAfterEl) shadowAfterEl = create_shadow_createShadow("coverflow", slideEl, isHorizontal ? "right" : "bottom");
+                    if (shadowBeforeEl) shadowBeforeEl.style.opacity = offsetMultiplier > 0 ? offsetMultiplier : 0;
+                    if (shadowAfterEl) shadowAfterEl.style.opacity = -offsetMultiplier > 0 ? -offsetMultiplier : 0;
+                }
+            }
+        };
+        const setTransition = duration => {
+            const transformElements = swiper.slides.map((slideEl => utils_getSlideTransformEl(slideEl)));
+            transformElements.forEach((el => {
+                el.style.transitionDuration = `${duration}ms`;
+                el.querySelectorAll(".swiper-slide-shadow-top, .swiper-slide-shadow-right, .swiper-slide-shadow-bottom, .swiper-slide-shadow-left").forEach((shadowEl => {
+                    shadowEl.style.transitionDuration = `${duration}ms`;
+                }));
+            }));
+        };
+        effect_init_effectInit({
+            effect: "coverflow",
+            swiper,
+            on,
+            setTranslate,
+            setTransition,
+            perspective: () => true,
+            overwriteParams: () => ({
+                watchSlidesProgress: true
+            })
+        });
+    }
     function initSliders() {
         if (document.querySelector(".review__slider")) new swiper_core_Swiper(".review__slider", {
             modules: [ Navigation, Pagination, Autoplay ],
@@ -4060,6 +4654,58 @@
             },
             on: {}
         });
+        if (document.querySelector(".about__slider-images") && document.querySelector(".about__slider-content")) {
+            const sliderAboutImages = new swiper_core_Swiper(".about__slider-images", {
+                modules: [ Pagination, EffectCoverflow, Controller, Mousewheel ],
+                effect: "coverflow",
+                slidesPerView: 1.51,
+                centeredSlides: true,
+                spaceBetween: 0,
+                speed: 1e3,
+                grabCursor: true,
+                loop: false,
+                coverflowEffect: {
+                    rotate: 0,
+                    stretch: 90,
+                    depth: 200,
+                    modifier: 1,
+                    scale: .72,
+                    slideShadows: true
+                },
+                mousewheel: {
+                    sensitivity: 1
+                },
+                pagination: {
+                    el: ".about-swiper-pagination",
+                    clickable: true
+                },
+                breakpoints: {
+                    768: {
+                        slidesPerView: 1.7
+                    }
+                },
+                on: {}
+            });
+            const sliderAboutContent = new swiper_core_Swiper(".about__slider-content", {
+                modules: [ EffectFade, Controller, Mousewheel ],
+                slidesPerView: 1,
+                spaceBetween: 0,
+                speed: 1e3,
+                autoHeight: true,
+                loop: true,
+                effect: "fade",
+                fadeEffect: {
+                    crossFade: true
+                },
+                mousewheel: {
+                    enabled: true,
+                    sensitivity: 1
+                },
+                on: {}
+            });
+            sliderAboutImages.controller.control = sliderAboutContent;
+            sliderAboutContent.controller.control = sliderAboutImages;
+        }
     }
     window.addEventListener("load", (function(e) {
         initSliders();
