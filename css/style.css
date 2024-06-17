@@ -914,9 +914,6 @@ address {
   display: flex;
   align-items: flex-start
 }
-.about__body .swiper {
-  margin-right: 0
-}
 .about__slider-images.swiper {
   max-width: 26.625rem;
   padding-bottom: 3.25rem
@@ -1595,6 +1592,11 @@ button.swiper-pagination-bullet {
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
   overflow: hidden
+}
+@media (min-width:29.99875em) {
+  .about__body .swiper {
+    margin-right: 0
+  }
 }
 @media (min-width:47.99875em) {
   .promises__list {
