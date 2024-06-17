@@ -351,6 +351,9 @@ address {
   row-gap: .3125rem;
   justify-content: center
 }
+.footer__item {
+  transition: color .3s
+}
 .footer__social {
   display: flex;
   flex-wrap: wrap;
@@ -409,8 +412,8 @@ address {
 }
 .hero__request {
   position: absolute;
-  -webkit-transform: translate(0,-50%);
-  transform: translate(0,-50%);
+  -webkit-transform: translate(0,-70%);
+  transform: translate(0,-70%);
   z-index: 5;
   width: 4.0625rem;
   font-size: 1rem;
@@ -451,6 +454,7 @@ address {
 .advantages__list {
   display: grid;
   grid-template-columns: repeat(3,1fr);
+  row-gap: 1.5625rem;
   justify-items: center;
   align-items: start;
   text-align: center
@@ -571,7 +575,8 @@ address {
   gap: 1rem;
   z-index: 10;
   align-content: space-around;
-  justify-content: space-between
+  justify-content: space-between;
+  align-items: start
 }
 .progressbar {
   display: flex;
@@ -612,6 +617,12 @@ address {
   padding: 1rem 1.5rem;
   border-radius: 1.5rem;
   box-shadow: 4px 4px 10px 0 rgba(30,30,30,.06),0 0 10px 0 rgba(30,30,30,.12)
+}
+.item-promises__image {
+  width: 3.75rem
+}
+.item-promises__img {
+  aspect-ratio: 1/1
 }
 .review {
   background: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%)
@@ -670,7 +681,8 @@ address {
 }
 .program__link {
   font-size: 1rem;
-  font-family: Arial
+  font-family: Arial;
+  transition: all .3s
 }
 .program__link:not(:last-child) {
   margin-bottom: .3125rem
@@ -720,7 +732,7 @@ address {
   margin-bottom: 1.25rem
 }
 .find__image {
-  border-radius: 2.1875rem;
+  border-radius: 0 2.1875rem 2.1875rem 0;
   overflow: hidden
 }
 .find__image img {
@@ -763,8 +775,9 @@ address {
 .item-testimonial__name:not(:last-child) {
   margin-bottom: .5rem
 }
-.item-testimonial __text {
-  font-size: 1rem
+.item-testimonial__text {
+  font-size: 1rem;
+  padding-bottom: .3125rem
 }
 .how {
   background: #0ab9b0;
@@ -822,6 +835,7 @@ address {
 .results__list {
   display: grid;
   grid-template-columns: repeat(3,1fr);
+  row-gap: 1.5625rem;
   justify-items: center;
   align-items: start;
   text-align: center
@@ -986,6 +1000,7 @@ address {
   margin-bottom: 1.5rem
 }
 .about__text {
+  margin-bottom: 1.5625rem;
   color: #343434
 }
 .about__button {
@@ -1063,7 +1078,8 @@ address {
 }
 .swiper-autoheight,
 .swiper-autoheight .swiper-slide {
-  height: 100%
+  height: 100%;
+  height: auto
 }
 .swiper-autoheight .swiper-wrapper {
   align-items: flex-start;
@@ -1749,7 +1765,7 @@ button.swiper-pagination-bullet {
     padding-top: 3.125rem
   }
   .page__testimonials {
-    padding-bottom: 3.125rem
+    padding-bottom: 6.25rem
   }
   .page__how {
     padding-top: 3.125rem
@@ -1824,7 +1840,7 @@ button.swiper-pagination-bullet {
     margin-bottom: 5rem
   }
   .advantages__list {
-    gap: 6.25rem
+    culumn-gap: 6.25rem
   }
   .promises__container {
     min-height: 28.4375rem
@@ -1887,7 +1903,7 @@ button.swiper-pagination-bullet {
     margin-bottom: 3.75rem
   }
   .results__list {
-    gap: 6.25rem
+    culumn-gap: 6.25rem
   }
   .results__list:not(:last-child) {
     margin-bottom: 3.75rem
@@ -2075,7 +2091,7 @@ button.swiper-pagination-bullet {
     padding-top: 2.5rem
   }
   .page__testimonials {
-    padding-bottom: 2.5rem
+    padding-bottom: 4.375rem
   }
   .page__how {
     padding-top: 2.5rem
@@ -2147,7 +2163,7 @@ button.swiper-pagination-bullet {
     margin-bottom: 3.75rem
   }
   .advantages__list {
-    gap: 2.25rem
+    culumn-gap: 2.25rem
   }
   .promises__container {
     min-height: 21.875rem
@@ -2207,7 +2223,7 @@ button.swiper-pagination-bullet {
     margin-bottom: 2.5rem
   }
   .results__list {
-    gap: 2.25rem
+    culumn-gap: 2.25rem
   }
   .results__list:not(:last-child) {
     margin-bottom: 2.5rem
@@ -2523,6 +2539,9 @@ button.swiper-pagination-bullet {
     display: block;
     margin-bottom: 3.75rem
   }
+  .find__image {
+    border-radius: 0
+  }
   .testimonials__container {
     margin-right: -.9375rem
   }
@@ -2548,7 +2567,6 @@ button.swiper-pagination-bullet {
     max-width: 100%
   }
   .about__slide-content-inner {
-    display: grid;
     max-width: 100%
   }
   .about__button {
@@ -2797,14 +2815,14 @@ button.swiper-pagination-bullet {
       padding-top: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
     }
   }
-  @supports (padding-bottom:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports (padding-bottom:clamp(4.375rem ,3.7809405941rem + 2.9702970297vw ,6.25rem)) {
     .page__testimonials {
-      padding-bottom: clamp(2.5rem ,2.301980198rem + .9900990099vw ,3.125rem)
+      padding-bottom: clamp(4.375rem ,3.7809405941rem + 2.9702970297vw ,6.25rem)
     }
   }
-  @supports not (padding-bottom:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports not (padding-bottom:clamp(4.375rem ,3.7809405941rem + 2.9702970297vw ,6.25rem)) {
     .page__testimonials {
-      padding-bottom: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
+      padding-bottom: calc(4.375rem + 1.875 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
@@ -3037,14 +3055,14 @@ button.swiper-pagination-bullet {
       margin-bottom: calc(3.75rem + 1.25 * (100vw - 20rem)/ 63.125)
     }
   }
-  @supports (gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
+  @supports (culumn-gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
     .advantages__list {
-      gap: clamp(2.25rem ,.9826732673rem + 6.3366336634vw ,6.25rem)
+      culumn-gap: clamp(2.25rem ,.9826732673rem + 6.3366336634vw ,6.25rem)
     }
   }
-  @supports not (gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
+  @supports not (culumn-gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
     .advantages__list {
-      gap: calc(2.25rem + 4 * (100vw - 20rem)/ 63.125)
+      culumn-gap: calc(2.25rem + 4 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (min-height:clamp(21.875rem ,19.7957920792rem + 10.396039604vw ,28.4375rem)) {
@@ -3237,14 +3255,14 @@ button.swiper-pagination-bullet {
       margin-bottom: calc(2.5rem + 1.25 * (100vw - 20rem)/ 63.125)
     }
   }
-  @supports (gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
+  @supports (culumn-gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
     .results__list {
-      gap: clamp(2.25rem ,.9826732673rem + 6.3366336634vw ,6.25rem)
+      culumn-gap: clamp(2.25rem ,.9826732673rem + 6.3366336634vw ,6.25rem)
     }
   }
-  @supports not (gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
+  @supports not (culumn-gap:clamp(2.25rem ,0.9826732673rem + 6.3366336634vw ,6.25rem)) {
     .results__list {
-      gap: calc(2.25rem + 4 * (100vw - 20rem)/ 63.125)
+      culumn-gap: calc(2.25rem + 4 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (margin-bottom:clamp(2.5rem ,2.103960396rem + 1.9801980198vw ,3.75rem)) {
@@ -3571,11 +3589,17 @@ button.swiper-pagination-bullet {
   .menu__link:hover {
     color: #47aba6
   }
+  .footer__item:hover {
+    color: #47aba6
+  }
   .footer__social-icon:hover {
     -webkit-transform: scale(1.05);
     transform: scale(1.05)
   }
   .program__link:hover {
-    text-decoration: underline
+    color: #22201e;
+    background: 0 0;
+    -webkit-background-clip: #22201e;
+    -webkit-text-fill-color: #22201e
   }
 }
