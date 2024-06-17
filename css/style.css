@@ -141,6 +141,7 @@ body {
   padding: 0 .9375rem
 }
 .button {
+  opacity: 0;
   display: inline-flex;
   border-radius: 2.25rem;
   justify-content: center;
@@ -149,9 +150,13 @@ body {
   padding-bottom: 1.25rem;
   color: #fffdfc;
   text-transform: uppercase;
-  transition: background-color .3s;
   background-color: #47aba6;
   box-shadow: -4px 4px 8px 0 rgba(36,144,139,.4) inset,4px -4px 8px 0 rgba(36,144,139,.4) inset,4px 4px 10px 0 rgba(20,136,130,.16)
+}
+.button._watcher-view {
+  transition-delay: .6s;
+  transition: opacity .5s,background-color .5s;
+  opacity: 1
 }
 .button--fw {
   width: 100%
@@ -277,12 +282,24 @@ address {
 .title {
   font-weight: 800;
   line-height: 1.1;
-  letter-spacing: -.01em
+  letter-spacing: -.01em;
+  opacity: 0;
+  -webkit-transform: translate(0,10%);
+  transform: translate(0,10%);
+  transition: opacity .5s,-webkit-transform .5s;
+  transition: transform .5s,opacity .5s;
+  transition: transform .5s,opacity .5s,-webkit-transform .5s
 }
 .title span {
   background: -webkit-linear-gradient(#e48606,#be4117);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent
+}
+.title._watcher-view {
+  transition-delay: .15s;
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0);
+  opacity: 1
 }
 .subtitle-2 {
   font-size: 52px;
@@ -290,8 +307,8 @@ address {
   line-height: 1.1;
   letter-spacing: -.01em;
   opacity: 0;
-  -webkit-transform: translate(0,15%);
-  transform: translate(0,15%);
+  -webkit-transform: translate(0,10%);
+  transform: translate(0,10%);
   transition: opacity .5s,-webkit-transform .5s;
   transition: transform .5s,opacity .5s;
   transition: transform .5s,opacity .5s,-webkit-transform .5s
@@ -323,7 +340,7 @@ address {
   font-weight: 700
 }
 .text._watcher-view {
-  transition-delay: .3s;
+  transition-delay: .25s;
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
   opacity: 1
@@ -424,7 +441,13 @@ address {
   margin-bottom: 1.5rem
 }
 .hero__roadmap {
+  opacity: 0;
+  transition: opacity .5s;
   position: relative
+}
+.hero__roadmap._watcher-view {
+  transition-delay: .25s;
+  opacity: 1
 }
 .hero__road-img {
   max-width: 12.625rem;
@@ -444,12 +467,18 @@ address {
   font-weight: 600
 }
 .hero__reported {
+  opacity: 0;
+  transition: opacity .5s;
   -webkit-transform: translateY(-50px);
   transform: translateY(-50px);
   font-size: 1rem;
   border-radius: 1.5rem;
   background: #fffdfc;
   box-shadow: 4px 4px 10px 0 rgba(30,30,30,.16)
+}
+.hero__reported._watcher-view {
+  transition-delay: .25s;
+  opacity: 1
 }
 .hero__image {
   display: grid;
@@ -501,31 +530,31 @@ address {
   transform: translate(0,0)
 }
 .item-icon._watcher-view:nth-child(1) {
-  transition-delay: .3s
+  transition-delay: .2s
 }
 .item-icon._watcher-view:nth-child(2) {
-  transition-delay: .5s
+  transition-delay: .35s
 }
 .item-icon._watcher-view:nth-child(3) {
-  transition-delay: .7s
+  transition-delay: .5s
 }
 .item-icon._watcher-view:nth-child(4) {
-  transition-delay: .9s
+  transition-delay: .65s
 }
 .item-icon._watcher-view:nth-child(5) {
-  transition-delay: 1.1s
+  transition-delay: .8s
 }
 .item-icon._watcher-view:nth-child(6) {
-  transition-delay: 1.3s
+  transition-delay: .95s
 }
 .item-icon._watcher-view:nth-child(7) {
-  transition-delay: 1.5s
+  transition-delay: 1.1s
 }
 .item-icon._watcher-view:nth-child(8) {
-  transition-delay: 1.7s
+  transition-delay: 1.25s
 }
 .item-icon._watcher-view:nth-child(9) {
-  transition-delay: 1.9s
+  transition-delay: 1.4s
 }
 .item-icon__image {
   width: 6rem;
@@ -755,7 +784,7 @@ address {
   transition: all .3s
 }
 .program__link._watcher-view {
-  transition-delay: .5s;
+  transition-delay: .4s;
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
   opacity: 1
@@ -774,7 +803,7 @@ address {
   font-family: Arial
 }
 .program__address._watcher-view {
-  transition-delay: .7s;
+  transition-delay: .5s;
   -webkit-transform: translate(0,0);
   transform: translate(0,0);
   opacity: 1
@@ -911,31 +940,31 @@ address {
   transform: translate(0,0)
 }
 .how-item._watcher-view:nth-child(1) {
-  transition-delay: .3s
+  transition-delay: .2s
 }
 .how-item._watcher-view:nth-child(2) {
-  transition-delay: .5s
+  transition-delay: .35s
 }
 .how-item._watcher-view:nth-child(3) {
-  transition-delay: .7s
+  transition-delay: .5s
 }
 .how-item._watcher-view:nth-child(4) {
-  transition-delay: .9s
+  transition-delay: .65s
 }
 .how-item._watcher-view:nth-child(5) {
-  transition-delay: 1.1s
+  transition-delay: .8s
 }
 .how-item._watcher-view:nth-child(6) {
-  transition-delay: 1.3s
+  transition-delay: .95s
 }
 .how-item._watcher-view:nth-child(7) {
-  transition-delay: 1.5s
+  transition-delay: 1.1s
 }
 .how-item._watcher-view:nth-child(8) {
-  transition-delay: 1.7s
+  transition-delay: 1.25s
 }
 .how-item._watcher-view:nth-child(9) {
-  transition-delay: 1.9s
+  transition-delay: 1.4s
 }
 .how-item:nth-child(1) {
   -webkit-transform: translate(-105%,10%);
@@ -1042,13 +1071,13 @@ address {
   transform: translate(0,0)
 }
 .item-started._watcher-view:nth-child(1) {
-  transition-delay: .3s
+  transition-delay: .2s
 }
 .item-started._watcher-view:nth-child(2) {
-  transition-delay: .5s
+  transition-delay: .35s
 }
 .item-started._watcher-view:nth-child(3) {
-  transition-delay: .7s
+  transition-delay: .5s
 }
 .item-started__counter {
   font-size: 3.25rem;
