@@ -762,11 +762,15 @@ address {
 }
 .item-testimonial__rating img {
   margin-top: -.125rem;
-  height: 1rem
+  height: 1rem;
+  width: 1rem
 }
 .item-testimonial__value {
   line-height: 1;
   font-size: 1rem
+}
+.item-testimonial__value-img {
+  aspect-ratio: 16/16
 }
 .item-testimonial__name {
   font-size: 1.25rem;
@@ -956,6 +960,9 @@ address {
 .about__body {
   display: flex;
   align-items: flex-start
+}
+.about__img {
+  aspect-ratio: 732/1511
 }
 .about__slider-images.swiper {
   max-width: 26.625rem;
