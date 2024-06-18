@@ -488,17 +488,25 @@ address {
   justify-items: center
 }
 .hero__phone-1-image {
+  overflow: hidden;
+  border-radius: 1.5625rem;
   max-width: 20rem
 }
 .hero__phone-2-image {
+  overflow: hidden;
+  border-radius: 1.5625rem;
   -webkit-transform: rotate(13deg) translateY(40px) translateX(-90px);
   transform: rotate(13deg) translateY(40px) translateX(-90px);
   max-width: 20.3125rem
 }
 .hero__phone-1 {
+  overflow: hidden;
+  border-radius: 1.5625rem;
   aspect-ratio: 444/916
 }
 .hero__phone-2 {
+  overflow: hidden;
+  border-radius: 1.5625rem;
   aspect-ratio: 445/917
 }
 .advantages__list {
@@ -1210,9 +1218,13 @@ address {
   padding-bottom: 3.25rem
 }
 .about__slide-images {
-  position: relative
+  position: relative;
+  overflow: hidden;
+  border-radius: 1.5625rem
 }
 .about__slide-images img {
+  overflow: hidden;
+  border-radius: 1.5625rem;
   width: 100%;
   -o-object-fit: cover;
   object-fit: cover
