@@ -409,6 +409,12 @@ address {
 .page__hero {
   padding-bottom: 4.375rem
 }
+.page__terms {
+  padding-bottom: 4.375rem
+}
+.page__policy {
+  padding-bottom: 4.375rem
+}
 .hero {
   border-radius: 0 0 1.5rem 1.5rem;
   background: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%)
@@ -840,7 +846,10 @@ address {
   max-width: 27.8125rem
 }
 .find__item {
-  border-radius: 2.1875rem;
+  position: sticky;
+  top: 4.625rem;
+  left: 0;
+  z-index: 1;
   overflow: hidden
 }
 .find__item:nth-child(odd) {
@@ -849,14 +858,13 @@ address {
 .find__item:nth-child(odd) .find__content .find__container .find__body .find__step {
   color: #fffdfc
 }
+.find__item:nth-child(even) {
+  background: #fffdfc
+}
 .find__item:nth-child(even) .find__content .find__container .find__body .find__step {
   background: -webkit-linear-gradient(#e48606,#be4117);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent
-}
-.find__step {
-  font-weight: 800;
-  letter-spacing: -1px
 }
 .find__content {
   flex: 0 0 100%;
@@ -876,14 +884,13 @@ address {
   margin-bottom: 1.25rem
 }
 .find__image {
-  border-radius: 0 2.1875rem 2.1875rem 0;
   overflow: hidden
 }
 .find__image img {
   max-width: 100%
 }
 .find__img {
-  aspect-ratio: 720/800
+  aspect-ratio: 1/1
 }
 .testimonials {
   background: #000;
@@ -1252,6 +1259,105 @@ address {
   border-radius: 6.25rem;
   background: linear-gradient(90deg,#e48606 0,#be4117 100%);
   transition: width .5s ease-in-out
+}
+.policy__container,
+.terms__container {
+  text-align: justify
+}
+.policy h1,
+.policy h2,
+.policy h3,
+.policy h4,
+.policy h5,
+.policy h6,
+.terms h1,
+.terms h2,
+.terms h3,
+.terms h4,
+.terms h5,
+.terms h6 {
+  font-weight: 800
+}
+.policy span,
+.terms span {
+  font-weight: 800
+}
+.policy h1,
+.terms h1 {
+  font-size: 3.75rem
+}
+.policy h1:not(:last-child),
+.terms h1:not(:last-child) {
+  margin-bottom: 1.5625rem
+}
+.policy h2,
+.terms h2 {
+  font-size: 3.125rem
+}
+.policy h2:not(:last-child),
+.terms h2:not(:last-child) {
+  margin-bottom: 1.5625rem
+}
+.policy h3,
+.terms h3 {
+  font-size: 2.5rem
+}
+.policy h3:not(:last-child),
+.terms h3:not(:last-child) {
+  margin-bottom: 1.5625rem
+}
+.policy h4,
+.terms h4 {
+  font-size: 1.875rem
+}
+.policy h4:not(:last-child),
+.terms h4:not(:last-child) {
+  margin-bottom: 1.5625rem
+}
+.policy h5,
+.terms h5 {
+  font-size: 1.5625rem
+}
+.policy h5:not(:last-child),
+.terms h5:not(:last-child) {
+  margin-bottom: 1.5625rem
+}
+.policy h6,
+.terms h6 {
+  font-size: 1.4375rem
+}
+.policy h6:not(:last-child),
+.terms h6:not(:last-child) {
+  margin-bottom: 1.5625rem
+}
+.policy p,
+.terms p {
+  font-size: 1rem
+}
+.policy p:not(:last-child),
+.terms p:not(:last-child) {
+  margin-bottom: .9375rem
+}
+.policy ol li,
+.terms ol li {
+  list-style-type: number
+}
+.policy ul li,
+.terms ul li {
+  list-style: disc
+}
+.policy ol,
+.policy ul,
+.terms ol,
+.terms ul {
+  margin-bottom: 1.5625rem;
+  font-size: 1rem
+}
+.policy ol li:not(:last-child),
+.policy ul li:not(:last-child),
+.terms ol li:not(:last-child),
+.terms ul li:not(:last-child) {
+  margin-bottom: .625rem
 }
 @font-face {
   font-family: swiper-icons;
@@ -2039,6 +2145,18 @@ button.swiper-pagination-bullet {
   .page__about {
     padding-bottom: 3.125rem
   }
+  .page__terms {
+    padding-top: 10.625rem
+  }
+  .page__terms {
+    padding-bottom: 4.375rem
+  }
+  .page__policy {
+    padding-top: 10.625rem
+  }
+  .page__policy {
+    padding-bottom: 4.375rem
+  }
   .hero__title:not(:last-child) {
     margin-bottom: 2.5rem
   }
@@ -2112,12 +2230,6 @@ button.swiper-pagination-bullet {
   }
   .program__text:not(:last-child) {
     margin-bottom: 3.75rem
-  }
-  .find__step {
-    font-size: 6.25rem
-  }
-  .find__step {
-    margin-bottom: 2.5rem
   }
   .find__container {
     width: 90rem
@@ -2343,6 +2455,18 @@ button.swiper-pagination-bullet {
   .page__about {
     padding-bottom: 1.25rem
   }
+  .page__terms {
+    padding-top: 5.625rem
+  }
+  .page__terms {
+    padding-bottom: 2.5rem
+  }
+  .page__policy {
+    padding-top: 5.625rem
+  }
+  .page__policy {
+    padding-bottom: 2.5rem
+  }
   .hero__title:not(:last-child) {
     margin-bottom: 1.5625rem
   }
@@ -2413,12 +2537,6 @@ button.swiper-pagination-bullet {
   }
   .program__text:not(:last-child) {
     margin-bottom: 2.5rem
-  }
-  .find__step {
-    font-size: 3.75rem
-  }
-  .find__step {
-    margin-bottom: 1.5625rem
   }
   .find__text {
     font-size: 1.125rem
@@ -3217,6 +3335,46 @@ button.swiper-pagination-bullet {
       padding-bottom: calc(1.25rem + 1.875 * (100vw - 20rem)/ 63.125)
     }
   }
+  @supports (padding-top:clamp(5.625rem ,4.0408415842rem + 7.9207920792vw ,10.625rem)) {
+    .page__terms {
+      padding-top: clamp(5.625rem ,4.0408415842rem + 7.9207920792vw ,10.625rem)
+    }
+  }
+  @supports not (padding-top:clamp(5.625rem ,4.0408415842rem + 7.9207920792vw ,10.625rem)) {
+    .page__terms {
+      padding-top: calc(5.625rem + 5 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (padding-bottom:clamp(2.5rem ,1.9059405941rem + 2.9702970297vw ,4.375rem)) {
+    .page__terms {
+      padding-bottom: clamp(2.5rem ,1.9059405941rem + 2.9702970297vw ,4.375rem)
+    }
+  }
+  @supports not (padding-bottom:clamp(2.5rem ,1.9059405941rem + 2.9702970297vw ,4.375rem)) {
+    .page__terms {
+      padding-bottom: calc(2.5rem + 1.875 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (padding-top:clamp(5.625rem ,4.0408415842rem + 7.9207920792vw ,10.625rem)) {
+    .page__policy {
+      padding-top: clamp(5.625rem ,4.0408415842rem + 7.9207920792vw ,10.625rem)
+    }
+  }
+  @supports not (padding-top:clamp(5.625rem ,4.0408415842rem + 7.9207920792vw ,10.625rem)) {
+    .page__policy {
+      padding-top: calc(5.625rem + 5 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (padding-bottom:clamp(2.5rem ,1.9059405941rem + 2.9702970297vw ,4.375rem)) {
+    .page__policy {
+      padding-bottom: clamp(2.5rem ,1.9059405941rem + 2.9702970297vw ,4.375rem)
+    }
+  }
+  @supports not (padding-bottom:clamp(2.5rem ,1.9059405941rem + 2.9702970297vw ,4.375rem)) {
+    .page__policy {
+      padding-bottom: calc(2.5rem + 1.875 * (100vw - 20rem)/ 63.125)
+    }
+  }
   @supports (margin-bottom:clamp(1.5625rem ,1.265470297rem + 1.4851485149vw ,2.5rem)) {
     .hero__title:not(:last-child) {
       margin-bottom: clamp(1.5625rem ,1.265470297rem + 1.4851485149vw ,2.5rem)
@@ -3449,26 +3607,6 @@ button.swiper-pagination-bullet {
   @supports not (margin-bottom:clamp(2.5rem ,2.103960396rem + 1.9801980198vw ,3.75rem)) {
     .program__text:not(:last-child) {
       margin-bottom: calc(2.5rem + 1.25 * (100vw - 20rem)/ 63.125)
-    }
-  }
-  @supports (font-size:clamp(3.75rem ,2.9579207921rem + 3.9603960396vw ,6.25rem)) {
-    .find__step {
-      font-size: clamp(3.75rem ,2.9579207921rem + 3.9603960396vw ,6.25rem)
-    }
-  }
-  @supports not (font-size:clamp(3.75rem ,2.9579207921rem + 3.9603960396vw ,6.25rem)) {
-    .find__step {
-      font-size: calc(3.75rem + 2.5 * (100vw - 20rem)/ 63.125)
-    }
-  }
-  @supports (margin-bottom:clamp(1.5625rem ,1.265470297rem + 1.4851485149vw ,2.5rem)) {
-    .find__step {
-      margin-bottom: clamp(1.5625rem ,1.265470297rem + 1.4851485149vw ,2.5rem)
-    }
-  }
-  @supports not (margin-bottom:clamp(1.5625rem ,1.265470297rem + 1.4851485149vw ,2.5rem)) {
-    .find__step {
-      margin-bottom: calc(1.5625rem + .9375 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (font-size:clamp(1.125rem ,1.0061881188rem + 0.5940594059vw ,1.5rem)) {
