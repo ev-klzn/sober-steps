@@ -2732,6 +2732,9 @@ button.swiper-pagination-bullet {
   .find__container {
     width: 47.99875rem
   }
+  .find__title {
+    text-align: center
+  }
   .find__image {
     border-radius: 0
   }
