@@ -388,6 +388,13 @@ address {
 .footer__footer__social-icon-img {
   aspect-ratio: 40/40
 }
+.footer__dev {
+  color: rgba(0,0,0,.5);
+  font-size: 1rem
+}
+.footer__dev-link {
+  transition: color .3s
+}
 .page__hero {
   padding-bottom: 4.375rem
 }
@@ -2003,7 +2010,7 @@ button.swiper-pagination-bullet {
     padding-bottom: 3.125rem
   }
   .page__about {
-    padding-top: 3.125rem
+    padding-top: 6.25rem
   }
   .page__about {
     margin-bottom: 6.25rem
@@ -3144,14 +3151,14 @@ button.swiper-pagination-bullet {
       padding-bottom: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
     }
   }
-  @supports (padding-top:clamp(1.25rem ,0.6559405941rem + 2.9702970297vw ,3.125rem)) {
+  @supports (padding-top:clamp(1.25rem ,-0.3341584158rem + 7.9207920792vw ,6.25rem)) {
     .page__about {
-      padding-top: clamp(1.25rem ,.6559405941rem + 2.9702970297vw ,3.125rem)
+      padding-top: clamp(1.25rem ,-.3341584158rem + 7.9207920792vw ,6.25rem)
     }
   }
-  @supports not (padding-top:clamp(1.25rem ,0.6559405941rem + 2.9702970297vw ,3.125rem)) {
+  @supports not (padding-top:clamp(1.25rem ,-0.3341584158rem + 7.9207920792vw ,6.25rem)) {
     .page__about {
-      padding-top: calc(1.25rem + 1.875 * (100vw - 20rem)/ 63.125)
+      padding-top: calc(1.25rem + 5 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (margin-bottom:clamp(3.125rem ,2.1349009901rem + 4.9504950495vw ,6.25rem)) {
@@ -3823,6 +3830,9 @@ button.swiper-pagination-bullet {
   .footer__social-icon:hover {
     -webkit-transform: scale(1.05);
     transform: scale(1.05)
+  }
+  .footer__dev-link:hover {
+    color: #47aba6
   }
   .program__link:hover {
     color: #22201e;
