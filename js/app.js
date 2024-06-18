@@ -4713,13 +4713,15 @@
             on: {}
         });
         if (document.querySelector(".find__slider")) new swiper_core_Swiper(".find__slider", {
-            modules: [ Controller, Autoplay ],
+            modules: [ Autoplay ],
+            slidesPerView: 1,
             observer: true,
             observeParents: true,
-            slidesPerView: 1,
+            freeMode: true,
             spaceBetween: 0,
             autoHeight: true,
             speed: 800,
+            stopOnLastSlide: true,
             loop: true,
             preloadImages: true,
             lazy: true,
@@ -4727,6 +4729,12 @@
             autoplay: {
                 delay: 6e3,
                 disableOnInteraction: false
+            },
+            breakpoints: {
+                320: {},
+                640: {},
+                768: {},
+                992: {}
             },
             pagination: {
                 el: ".swiper-pagination",
