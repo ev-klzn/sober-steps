@@ -233,6 +233,17 @@ textarea.input {
   -o-object-fit: contain;
   object-fit: contain
 }
+.started__list {
+  list-style-type: none;
+  counter-reset: item
+}
+.started__list li {
+  position: relative
+}
+.started__list li:before {
+  counter-increment: item;
+  content: counter(item,decimal-leading-zero)
+}
 [class*="--colored"] {
   background: -webkit-linear-gradient(#e48606,#be4117);
   -webkit-background-clip: text;
@@ -1091,6 +1102,16 @@ address {
   transition: opacity .3s,-webkit-transform .3s;
   transition: opacity .3s,transform .3s;
   transition: opacity .3s,transform .3s,-webkit-transform .3s
+}
+.item-started::before {
+  counter-increment: item;
+  content: counter(item,decimal-leading-zero);
+  display: inline-block;
+  justify-self: center;
+  color: #e14f06;
+  font-size: 3.75rem;
+  font-weight: 800;
+  line-height: 1.1
 }
 .item-started._watcher-view {
   opacity: 1;
@@ -2148,6 +2169,12 @@ button.swiper-pagination-bullet {
   .people__text {
     font-size: 1.5rem
   }
+  .item-started::before {
+    margin-bottom: 1.25rem
+  }
+  .item-started::before {
+    margin-top: 1.25rem
+  }
   .item-started__text {
     font-size: 1.25rem
   }
@@ -2439,6 +2466,12 @@ button.swiper-pagination-bullet {
   }
   .people__text {
     font-size: 1.125rem
+  }
+  .item-started::before {
+    margin-bottom: .9375rem
+  }
+  .item-started::before {
+    margin-top: .9375rem
   }
   .item-started__text {
     font-size: 1.125rem
@@ -3590,6 +3623,26 @@ button.swiper-pagination-bullet {
   @supports not (font-size:clamp(1.125rem ,1.0061881188rem + 0.5940594059vw ,1.5rem)) {
     .people__text {
       font-size: calc(1.125rem + .375 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (margin-bottom:clamp(0.9375rem ,0.838490099rem + 0.495049505vw ,1.25rem)) {
+    .item-started::before {
+      margin-bottom: clamp(.9375rem ,.838490099rem + .495049505vw ,1.25rem)
+    }
+  }
+  @supports not (margin-bottom:clamp(0.9375rem ,0.838490099rem + 0.495049505vw ,1.25rem)) {
+    .item-started::before {
+      margin-bottom: calc(.9375rem + .3125 * (100vw - 20rem)/ 63.125)
+    }
+  }
+  @supports (margin-top:clamp(0.9375rem ,0.838490099rem + 0.495049505vw ,1.25rem)) {
+    .item-started::before {
+      margin-top: clamp(.9375rem ,.838490099rem + .495049505vw ,1.25rem)
+    }
+  }
+  @supports not (margin-top:clamp(0.9375rem ,0.838490099rem + 0.495049505vw ,1.25rem)) {
+    .item-started::before {
+      margin-top: calc(.9375rem + .3125 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (font-size:clamp(1.125rem ,1.0853960396rem + 0.198019802vw ,1.25rem)) {
