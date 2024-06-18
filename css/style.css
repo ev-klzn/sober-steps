@@ -478,9 +478,6 @@ address {
 .hero__phone-2 {
   aspect-ratio: 445/917
 }
-.advantages__container {
-  background: #fffdfc
-}
 .advantages__list {
   display: grid;
   grid-template-columns: repeat(3,1fr);
