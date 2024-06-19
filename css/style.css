@@ -1192,11 +1192,12 @@ address {
   letter-spacing: -.52px
 }
 .item-started__image {
-  max-width: 10rem;
   overflow: hidden;
-  border-radius: 1.5rem
+  border-radius: 1.5rem;
+  max-width: 10rem
 }
 .item-started__img {
+  max-width: 10rem;
   aspect-ratio: 160/160
 }
 .item-started__text {
@@ -2960,9 +2961,6 @@ button.swiper-pagination-bullet {
   }
   .started__list {
     grid-template-columns: 1fr
-  }
-  .item-started__image {
-    max-width: 20rem
   }
   .about__body {
     flex-direction: column
