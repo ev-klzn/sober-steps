@@ -1151,7 +1151,7 @@ address {
   -webkit-column-gap: 1.25rem;
   -moz-column-gap: 1.25rem;
   column-gap: 1.25rem;
-  row-gap: .625rem;
+  row-gap: 3.75rem;
   align-items: start
 }
 .started__list:not(:last-child) {
