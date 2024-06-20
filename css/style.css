@@ -95,10 +95,6 @@ body {
   -ms-scroll-chaining: none;
   overscroll-behavior: none
 }
-.loaded body {
-  opacity: 1;
-  transition: opacity .2s
-}
 .wrapper {
   min-height: 100%;
   display: flex;
