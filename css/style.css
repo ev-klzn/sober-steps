@@ -265,10 +265,34 @@ body::after {
   padding: 20px;
   width: 100%;
   max-width: 450px;
-  border-radius: 20px
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column
 }
 .lock .popup__content {
   visibility: visible
+}
+.popup__close {
+  align-self: flex-end
+}
+.contact {
+  display: flex;
+  flex-direction: column
+}
+.contact__form {
+  align-items: center;
+  display: grid;
+  border-radius: 2px
+}
+.form {
+  display: flex;
+  gap: .9375rem;
+  flex-direction: column;
+  align-items: center
+}
+.input {
+  background: rgba(219,218,218,.3843137255);
+  padding: .625rem!important
 }
 .ibg {
   width: 100%;
@@ -1412,26 +1436,6 @@ address {
 .terms ol li:not(:last-child),
 .terms ul li:not(:last-child) {
   margin-bottom: .625rem
-}
-.contact {
-  display: flex;
-  flex-direction: column;
-  align-items: center
-}
-.contact__form {
-  align-items: center;
-  display: grid;
-  border-radius: 2px
-}
-.form {
-  display: flex;
-  gap: .9375rem;
-  flex-direction: column;
-  align-items: center
-}
-.input {
-  background: rgba(219,218,218,.3843137255);
-  padding: .625rem!important
 }
 @font-face {
   font-family: swiper-icons;
