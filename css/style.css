@@ -97,7 +97,7 @@ body {
 }
 .loaded body {
   opacity: 1;
-  transition: opacity .3s
+  transition: opacity .2s
 }
 .wrapper {
   min-height: 100%;
