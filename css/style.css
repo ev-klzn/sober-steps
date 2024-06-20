@@ -264,9 +264,10 @@ body::after {
   background-color: #eee;
   padding: 20px;
   width: 100%;
-  max-width: 450px;
+  max-width: 620px;
   border-radius: 20px;
   display: flex;
+  gap: .625rem;
   flex-direction: column
 }
 .lock .popup__content {
