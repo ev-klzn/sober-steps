@@ -524,6 +524,7 @@ address {
   -webkit-transform: translate(0,-70%);
   transform: translate(0,-70%);
   z-index: 5;
+  width: 6.25rem;
   font-size: 1rem;
   font-weight: 600
 }
@@ -2791,9 +2792,8 @@ button.swiper-pagination-bullet {
     display: none
   }
   .hero__request {
-    -webkit-transform: translate(20%,5%);
-    transform: translate(20%,5%);
-    width: 100%
+    -webkit-transform: translate(10%,5%);
+    transform: translate(10%,5%)
   }
   .hero__reported {
     max-width: 80%;
