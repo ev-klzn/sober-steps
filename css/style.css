@@ -1321,8 +1321,7 @@ address {
   background: linear-gradient(90deg,#e48606 0,#be4117 100%);
   transition: width .5s ease-in-out
 }
-.policy__container,
-.terms__container {
+.policy__container {
   text-align: justify
 }
 .policy h1,
@@ -1330,94 +1329,67 @@ address {
 .policy h3,
 .policy h4,
 .policy h5,
-.policy h6,
-.terms h1,
-.terms h2,
-.terms h3,
-.terms h4,
-.terms h5,
-.terms h6 {
+.policy h6 {
   font-weight: 800
 }
-.policy span,
-.terms span {
+.policy span {
   font-weight: 800
 }
-.policy h1,
-.terms h1 {
+.policy h1 {
   font-size: 3.75rem
 }
-.policy h1:not(:last-child),
-.terms h1:not(:last-child) {
+.policy h1:not(:last-child) {
   margin-bottom: 1.5625rem
 }
-.policy h2,
-.terms h2 {
+.policy h2 {
   font-size: 3.125rem
 }
-.policy h2:not(:last-child),
-.terms h2:not(:last-child) {
+.policy h2:not(:last-child) {
   margin-bottom: 1.5625rem
 }
-.policy h3,
-.terms h3 {
+.policy h3 {
   font-size: 2.5rem
 }
-.policy h3:not(:last-child),
-.terms h3:not(:last-child) {
+.policy h3:not(:last-child) {
   margin-bottom: 1.5625rem
 }
-.policy h4,
-.terms h4 {
+.policy h4 {
   font-size: 1.875rem
 }
-.policy h4:not(:last-child),
-.terms h4:not(:last-child) {
+.policy h4:not(:last-child) {
   margin-bottom: 1.5625rem
 }
-.policy h5,
-.terms h5 {
+.policy h5 {
   font-size: 1.5625rem
 }
-.policy h5:not(:last-child),
-.terms h5:not(:last-child) {
+.policy h5:not(:last-child) {
   margin-bottom: 1.5625rem
 }
-.policy h6,
-.terms h6 {
+.policy h6 {
   font-size: 1.4375rem
 }
-.policy h6:not(:last-child),
-.terms h6:not(:last-child) {
+.policy h6:not(:last-child) {
   margin-bottom: 1.5625rem
 }
-.policy p,
-.terms p {
+.policy p {
   font-size: 1rem
 }
-.policy p:not(:last-child),
-.terms p:not(:last-child) {
+.policy p:not(:last-child) {
   margin-bottom: .9375rem
 }
-.policy ol li,
-.terms ol li {
+.policy ol li {
   list-style-type: number
 }
-.policy ul li,
-.terms ul li {
+.policy ul li {
   list-style: disc
 }
 .policy ol,
-.policy ul,
-.terms ol,
-.terms ul {
+.policy ul {
   margin-bottom: 1.5625rem;
   font-size: 1rem
 }
 .policy ol li:not(:last-child),
-.policy ul li:not(:last-child),
-.terms ol li:not(:last-child),
-.terms ul li:not(:last-child) {
+.policy ul li:not(:last-child) {
   margin-bottom: .625rem
 }
 .support {
