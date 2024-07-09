@@ -207,75 +207,6 @@ textarea.input {
 .icon-menu {
   display: none
 }
-body::after {
-  content: "";
-  background-color: rgba(0,0,0,.5);
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  opacity: 0;
-  transition: opacity .8s ease 0s;
-  pointer-events: none;
-  z-index: 149
-}
-.popup-show body::after {
-  opacity: 1
-}
-.popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  padding: 30px 10px;
-  transition: visibility .8s ease 0s;
-  visibility: hidden;
-  pointer-events: none
-}
-.popup_show {
-  z-index: 150;
-  visibility: visible;
-  overflow: auto;
-  pointer-events: auto
-}
-.popup_show .popup__content {
-  visibility: visible;
-  -webkit-transform: scale(1);
-  transform: scale(1)
-}
-.popup__wrapper {
-  flex-direction: column;
-  min-height: 100%;
-  flex: 1 1 auto;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center
-}
-.popup__content {
-  visibility: hidden;
-  -webkit-transform: scale(0);
-  transform: scale(0);
-  transition: -webkit-transform .3s ease 0s;
-  transition: transform .3s ease 0s;
-  transition: transform .3s ease 0s,-webkit-transform .3s ease 0s;
-  background-color: #eee;
-  padding: 20px;
-  width: 100%;
-  max-width: 800px;
-  border-radius: 20px;
-  display: flex;
-  gap: .625rem;
-  flex-direction: column
-}
-.lock .popup__content {
-  visibility: visible
-}
-.popup__close {
-  align-self: flex-end
-}
 .ibg {
   width: 100%;
   height: 100%;
@@ -398,8 +329,10 @@ address {
   background: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%)
 }
 .header__container {
-  position: relative;
   display: grid;
+  background-color: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%);
+  z-index: 550;
+  position: relative;
   grid-template-columns: auto 1fr auto;
   padding-top: .9375rem;
   padding-bottom: .9375rem;
@@ -1385,12 +1318,18 @@ address {
 }
 .policy ol,
 .policy ul {
+  padding-left: 2.1875rem;
   margin-bottom: 1.5625rem;
   font-size: 1rem
 }
 .policy ol li:not(:last-child),
 .policy ul li:not(:last-child) {
   margin-bottom: .625rem
+}
+.policy a {
+  text-decoration: underline;
+  color: #00f;
+  transition: color .3s
 }
 .support {
   display: flex;
@@ -1408,6 +1347,23 @@ address {
 .input {
   background: rgba(219,218,218,.3843137255);
   padding: 1.25rem!important
+}
+.about-table {
+  padding-top: 3.125rem;
+  padding-bottom: 3.125rem;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 3.4375rem;
+  text-align: center
+}
+.about-table:not(:last-child) {
+  margin-bottom: 3.125rem
+}
+.about-table__img {
+  aspect-ratio: 1/1
+}
+.about-table__img:not(:last-child) {
+  margin-bottom: .9375rem
 }
 @font-face {
   font-family: swiper-icons;
@@ -2143,13 +2099,13 @@ button.swiper-pagination-bullet {
     padding-bottom: 3.125rem
   }
   .page__testimonials {
-    padding-top: 3.125rem
+    padding-top: 5.9375rem
   }
   .page__testimonials {
     padding-bottom: 6.25rem
   }
   .page__how {
-    padding-top: 3.125rem
+    padding-top: 5.9375rem
   }
   .page__how {
     padding-bottom: 3.125rem
@@ -2170,7 +2126,7 @@ button.swiper-pagination-bullet {
     margin-bottom: 6.25rem
   }
   .page__started {
-    padding-top: 3.125rem
+    padding-top: 5.9375rem
   }
   .page__started {
     padding-bottom: 3.125rem
@@ -2459,13 +2415,13 @@ button.swiper-pagination-bullet {
     padding-bottom: 2.5rem
   }
   .page__testimonials {
-    padding-top: 2.5rem
+    padding-top: 4.375rem
   }
   .page__testimonials {
     padding-bottom: 4.375rem
   }
   .page__how {
-    padding-top: 2.5rem
+    padding-top: 4.375rem
   }
   .page__how {
     padding-bottom: 2.5rem
@@ -2486,7 +2442,7 @@ button.swiper-pagination-bullet {
     margin-bottom: 3.125rem
   }
   .page__started {
-    padding-top: 2.5rem
+    padding-top: 4.375rem
   }
   .page__started {
     padding-bottom: 2.5rem
@@ -2816,6 +2772,7 @@ button.swiper-pagination-bullet {
   .menu__body::before {
     content: "";
     position: fixed;
+    background: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%);
     width: 100%;
     height: 4.375rem;
     left: -100%;
@@ -3006,6 +2963,10 @@ button.swiper-pagination-bullet {
     width: 100%;
     margin-left: 0;
     justify-self: center
+  }
+  .about-table {
+    grid-template-columns: auto;
+    gap: 3.4375rem
   }
 }
 @media (max-width:47.99875em) and (max-width:20em) {
@@ -3226,14 +3187,14 @@ button.swiper-pagination-bullet {
       padding-bottom: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
     }
   }
-  @supports (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports (padding-top:clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)) {
     .page__testimonials {
-      padding-top: clamp(2.5rem ,2.301980198rem + .9900990099vw ,3.125rem)
+      padding-top: clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)
     }
   }
-  @supports not (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports not (padding-top:clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)) {
     .page__testimonials {
-      padding-top: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
+      padding-top: calc(4.375rem + 1.5625 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (padding-bottom:clamp(4.375rem ,3.7809405941rem + 2.9702970297vw ,6.25rem)) {
@@ -3246,14 +3207,14 @@ button.swiper-pagination-bullet {
       padding-bottom: calc(4.375rem + 1.875 * (100vw - 20rem)/ 63.125)
     }
   }
-  @supports (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports (padding-top:clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)) {
     .page__how {
-      padding-top: clamp(2.5rem ,2.301980198rem + .9900990099vw ,3.125rem)
+      padding-top: clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)
     }
   }
-  @supports not (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports not (padding-top:clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)) {
     .page__how {
-      padding-top: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
+      padding-top: calc(4.375rem + 1.5625 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (padding-bottom:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
@@ -3316,14 +3277,14 @@ button.swiper-pagination-bullet {
       margin-bottom: calc(3.125rem + 3.125 * (100vw - 20rem)/ 63.125)
     }
   }
-  @supports (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports (padding-top:clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)) {
     .page__started {
-      padding-top: clamp(2.5rem ,2.301980198rem + .9900990099vw ,3.125rem)
+      padding-top: clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)
     }
   }
-  @supports not (padding-top:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
+  @supports not (padding-top:clamp(4.375rem ,3.879950495rem + 2.4752475248vw ,5.9375rem)) {
     .page__started {
-      padding-top: calc(2.5rem + .625 * (100vw - 20rem)/ 63.125)
+      padding-top: calc(4.375rem + 1.5625 * (100vw - 20rem)/ 63.125)
     }
   }
   @supports (padding-bottom:clamp(2.5rem ,2.301980198rem + 0.9900990099vw ,3.125rem)) {
@@ -4118,5 +4079,8 @@ button.swiper-pagination-bullet {
     background: 0 0;
     -webkit-background-clip: #22201e;
     -webkit-text-fill-color: #22201e
+  }
+  .policy a:hover {
+    color: #22201e
   }
 }
