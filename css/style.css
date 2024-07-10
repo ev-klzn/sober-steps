@@ -1349,8 +1349,8 @@ address {
   padding: 1.25rem!important
 }
 .about-table {
-  padding-top: 3.125rem;
-  padding-bottom: 3.125rem;
+  padding-top: 1.875rem;
+  padding-bottom: .625rem;
   display: grid;
   grid-template-columns: repeat(3,1fr);
   gap: 3.4375rem;
@@ -1363,7 +1363,10 @@ address {
   aspect-ratio: 1/1
 }
 .about-table__img:not(:last-child) {
-  margin-bottom: .9375rem
+  margin-bottom: 1.5625rem
+}
+.about-table__title:not(:last-child) {
+  margin-bottom: 0
 }
 @font-face {
   font-family: swiper-icons;
@@ -2966,7 +2969,7 @@ button.swiper-pagination-bullet {
   }
   .about-table {
     grid-template-columns: auto;
-    gap: 3.4375rem
+    gap: 3.75rem
   }
 }
 @media (max-width:47.99875em) and (max-width:20em) {
