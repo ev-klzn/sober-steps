@@ -1310,6 +1310,11 @@ address {
 .policy p:not(:last-child) {
   margin-bottom: .9375rem
 }
+.policy p a {
+  text-decoration: underline;
+  color: #00f;
+  transition: color .3s
+}
 .policy ol li {
   list-style-type: number
 }
@@ -1327,6 +1332,25 @@ address {
   margin-bottom: .625rem
 }
 .policy a {
+  text-decoration: underline;
+  color: #00f;
+  transition: color .3s
+}
+.contact {
+  max-width: 28.75rem
+}
+.contact p {
+  margin-bottom: 1.5625rem
+}
+.contact p a {
+  text-decoration: underline;
+  color: #00f;
+  transition: color .3s
+}
+.contact__form p {
+  margin-bottom: 1.5625rem
+}
+.contact__form p a {
   text-decoration: underline;
   color: #00f;
   transition: color .3s
@@ -4083,7 +4107,16 @@ button.swiper-pagination-bullet {
     -webkit-background-clip: #22201e;
     -webkit-text-fill-color: #22201e
   }
+  .policy p a:hover {
+    color: #22201e
+  }
   .policy a:hover {
+    color: #22201e
+  }
+  .contact p a:hover {
+    color: #22201e
+  }
+  .contact__form p a:hover {
     color: #22201e
   }
 }
