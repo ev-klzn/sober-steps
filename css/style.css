@@ -330,7 +330,7 @@ address {
 }
 .header__container {
   display: grid;
-  background-color: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%);
+  background: linear-gradient(90deg,#ffecd2 0,#fcb69f 100%);
   z-index: 550;
   position: relative;
   grid-template-columns: auto 1fr auto;
