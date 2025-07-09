@@ -397,6 +397,9 @@ address {
   transition: color .3s
 }
 .page__hero {
+  
+  display: flex;justify-content:center;align-items: center;
+  min-height: 100vh;
   padding-top: 5.625rem;
   padding-bottom: 4.375rem
 }
